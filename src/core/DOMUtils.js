@@ -22,3 +22,7 @@ export function removeEventListener(node, event, listener) {
     node.detachEvent('on' + event, listener);
   }
 }
+
+export function formatNumber(number) {
+  return number.toLocaleString('en-US', { useGrouping: 'true', maximumFractionDigits:0}).replace(/[,]/g, ' ');
+}

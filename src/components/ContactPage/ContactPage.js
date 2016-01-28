@@ -10,6 +10,7 @@
 import React, { Component, PropTypes } from 'react';
 import s from './ContactPage.scss';
 import withStyles from '../../decorators/withStyles';
+import Button from 'react-bootstrap/lib/Button';
 
 const title = 'Contact Us';
 
@@ -20,6 +21,19 @@ class ContactPage extends Component {
     onSetTitle: PropTypes.func.isRequired,
   };
 
+  componentDidMount(){
+    var playerInstance = jwplayer("myElement");
+    playerInstance.setup({
+        file: "//example.com/uploads/myVideo.mp4",
+        image: "//example.com/uploads/myPoster.jpg",
+        width: 640,
+        height: 360,
+        title: 'Basic Video Embed',
+        description: 'A video with a basic title and description!',
+        mediaid: '123456'
+    });
+  }
+
   componentWillMount() {
     this.context.onSetTitle(title);
   }
@@ -29,7 +43,8 @@ class ContactPage extends Component {
       <div className={s.root}>
         <div className={s.container}>
           <h1>{title}</h1>
-          <p>...</p>
+          <div id="myElement"></div>
+          <p><Button bsSize="large">Success</Button></p>
         </div>
       </div>
     );

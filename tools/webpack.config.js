@@ -93,6 +93,15 @@ const config = {
         test: /\.(eot|ttf|wav|mp3)$/,
         loader: 'file-loader',
       },
+      {
+        test: /\.css$/,
+        loaders: [
+          'isomorphic-style-loader',
+          'css-loader?' + (DEBUG ? 'sourceMap&' : 'minimize&') +
+          'modules&localIdentName=[local]',
+          'postcss-loader',
+        ],
+      },
     ],
   },
 
@@ -100,6 +109,9 @@ const config = {
     return [
       require('postcss-import')({ addDependencyTo: bundler }),
       require('precss')(),
+      require('postcss-url')({
+        copy: 'rebase',
+      }),
       require('autoprefixer')({ browsers: AUTOPREFIXER_BROWSERS }),
     ];
   },

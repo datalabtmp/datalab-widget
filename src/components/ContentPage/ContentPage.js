@@ -10,8 +10,8 @@
 import React, { Component, PropTypes } from 'react';
 import s from './ContentPage.scss';
 import withStyles from '../../decorators/withStyles';
+import Currencies from '../Currencies';
 
-@withStyles(s)
 class ContentPage extends Component {
 
   static propTypes = {
@@ -28,14 +28,10 @@ class ContentPage extends Component {
     this.context.onSetTitle(this.props.title);
     return (
       <div className={s.root}>
-        <div className={s.container}>
-          {this.props.path === '/' ? null : <h1>{this.props.title}</h1>}
-          <div dangerouslySetInnerHTML={{ __html: this.props.content || '' }} />
-        </div>
+        <Currencies saveState={false} />
       </div>
     );
   }
-
 }
 
 export default ContentPage;
