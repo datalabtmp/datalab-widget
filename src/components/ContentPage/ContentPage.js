@@ -30,7 +30,7 @@ class ContentPage extends Component {
       <div className={s.root}>
         <Currencies saveState={true} />
         <hr/>
-        <button className="add" onClick={function(){localStorage.setItem('state', ''); window.location.reload();}}>Reset</button>
+        <button className="add" onClick={function(){localStorage.setItem('state', ''); window.location = '/';}}>Reset</button>
       </div>
     );
   }
