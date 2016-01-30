@@ -30,6 +30,7 @@ $end-color: #0189ff;
 
 }
 
+
 .container {
   margin: 0 auto;
   padding: 0 0 40px;
@@ -37,7 +38,7 @@ $end-color: #0189ff;
 }
 
 .header {
-  position:relative;
+  position: relative;
   h2 {
     margin-top: 0;
     font-size: 24px;
@@ -46,12 +47,27 @@ $end-color: #0189ff;
   }
   .right {
     position: absolute;
-    right:0;
-    top:1em;
+    right: 0;
+    top: 1em;
   }
 }
 
 :global {
+
+
+
+
+  .loading {
+    position: absolute;
+    top:120px;
+    left:130px;
+
+  }
+
+  p {
+    clear: both;
+    display: block;
+  }
 
   .col.bar {
     position: relative;
@@ -67,7 +83,7 @@ $end-color: #0189ff;
       color: #fff;
       display: inline-block;
       background-color: #32aaff;
-      margin-left:0.2em;
+      margin-left: 0.2em;
       color: #fff;
       border: 0;
       //background: none;
@@ -84,6 +100,20 @@ $end-color: #0189ff;
   }
 
   .col {
+    position: relative;
+    #vis, #bar {
+      path {
+        stroke-width: 2;
+        fill: none;
+      }
+
+      circle {
+        cursor: ns-resize;
+      }
+    }
+
+
+
     width: 285px;
     display: block;
     float: left;
@@ -100,7 +130,7 @@ $end-color: #0189ff;
       position: absolute;
       strong {
         display: block;
-        font-size:15px;
+        font-size: 15px;
       }
     }
 
@@ -117,8 +147,6 @@ $end-color: #0189ff;
       color: #ccc;
     }
 
-
-
     .add {
       padding: 0.3em 0.7em;
       line-height: 1;
@@ -130,9 +158,7 @@ $end-color: #0189ff;
       background-image: linear-gradient(to bottom, $start-color $start-percent, $end-color $end-percent);
       background-repeat: repeat-x;
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{ie-hex-str($start-color)}', endColorstr='#{ie-hex-str($end-color)}', GradientType=0);
-
     }
-
 
     button {
       display: inline-block;
@@ -153,13 +179,13 @@ $end-color: #0189ff;
     }
 
     fieldset {
-      margin-bottom:1em;
+      margin-bottom: 1em;
     }
 
     fieldset legend strong {
       width: 30%;
       vertical-align: top;
-      margin-bottom:0.5em;
+      margin-bottom: 0.5em;
 
       &:first-child {
         width: 35%;
@@ -192,22 +218,9 @@ $end-color: #0189ff;
     display: block;
   }
 
-  path {
-    stroke-width: 2;
-    fill: none;
-  }
-
-  circle {
-    cursor: ns-resize;
-  }
-
-  line {
-    stroke-width: 2;
-  }
-
-
   .tmp {
     width: 920px;
+    margin-left:-30px;
   }
   .xTicks, .yTicks {
     stroke-width: 1;

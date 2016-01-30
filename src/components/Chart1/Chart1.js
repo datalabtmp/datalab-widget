@@ -43,9 +43,6 @@ export default class Chart1 extends Component {
         rate.push({ x: week++, y: 1/j[1] });
       });
 
-     // console.log('data', data);
-
-
       // Draw historical rate
       vis.append("svg:path").data([rate]).attr("d", line).attr('stroke', color);
 
@@ -56,13 +53,20 @@ export default class Chart1 extends Component {
       var offset = 0;
       var stepSize = 12.75; // or 90
 
-      var futureRates = _this.props.futureRates[_this.props.currencies.indexOf(currency)];
+      var currencyIndex = _this.props.currencies.indexOf(currency);
+
+      var futureRates = _this.props.futureRates[currencyIndex].map((r, i) => { return _this.props.rates[currencyIndex] + _this.props.futureRates[currencyIndex][i]});
+
+
+
+
 
       // Draw future rates
       for(var i = 0; i < 4; i++) {
 
         vis.append("svg:line")
           .attr('stroke', color)
+          .attr('stroke-width', 2)
           .attr('class', `line-${i}-${classSuffix}`)
           .attr("x1", x(val.x + offset))
           .attr("y1", y(i == 0 ? val.y : futureRates[i - 1]))
@@ -100,7 +104,6 @@ export default class Chart1 extends Component {
       }
     }
 
-
     function moveNeighboringLines(handle, dy) {
       vis.select('.' + handle.attr('leftLineClass')).attr('y2', dy);
       vis.select('.' + handle.attr('rightLineClass')).attr('y1', dy);
@@ -114,7 +117,6 @@ export default class Chart1 extends Component {
 
       _label = d3.select("." + that.attr("rightLabelClass"));
       _label.attr('display', 'none');
-
 
       _this.props.updateFutureRates(that.attr('data-currency'), that.attr('data-quarter'), y.invert(that.attr('cy')));
     }
@@ -218,7 +220,7 @@ export default class Chart1 extends Component {
 
     this.props.currencies.forEach(function(cur, i) {
       if (cur !== that.props.base && typeof that.props.data[cur] !== 'undefined') {
-        console.log('drawlines', that.props.currencies[i], that.props.data[cur], cur);
+        //console.log('drawlines', that.props.currencies[i], that.props.data[cur], cur);
         drawLines(vis, that.props.data[cur], Colors.colors[i], that.props.currencies[i]);
       }
     });

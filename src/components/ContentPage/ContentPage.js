@@ -28,7 +28,9 @@ class ContentPage extends Component {
     this.context.onSetTitle(this.props.title);
     return (
       <div className={s.root}>
-        <Currencies saveState={false} />
+        <Currencies saveState={true} />
+        <hr/>
+        <button className="add" onClick={function(){localStorage.setItem('state', ''); window.location.reload();}}>Reset</button>
       </div>
     );
   }

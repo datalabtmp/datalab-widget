@@ -90,12 +90,10 @@ router.get('/', async (req, res, next) => {
           'hcc_session=1453969938'
         }
       };
+
       const response = await fetch(url, params);
 
-
       const json = await response.json();
-
-    console.log('response', json);
 
     var ret = {};
 
@@ -104,7 +102,6 @@ router.get('/', async (req, res, next) => {
       for (var i = 0; i < json.widget.length; i++) {
         if (currencies.indexOf(json.widget[i].quoteCurrency) !== -1) ret[SupportedCurrencies.byName(json.widget[i].quoteCurrency).symbol] = json.widget[i];
       }
-
 
     res.status(200).send(ret);
   }

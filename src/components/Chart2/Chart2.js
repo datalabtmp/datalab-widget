@@ -85,6 +85,11 @@ export default class Chart2 extends Component {
   }
 
   _getData() {
+
+    function calculateInterest(quarter, savings, quarterRate, yearlyInterest) {
+      return savings * quarterRate * yearlyInterest / ((4 - quarter) * (100/4));
+    }
+
     var data = [];
 
     for (var q = 0; q < 4; q++) {
@@ -101,10 +106,10 @@ export default class Chart2 extends Component {
             "name": this.props.currencies[i],
             "projected": false,
             "y0": y0,
-            "y1": (y0 + this.props.savings[i] * this.props.futureRates[i][q])
+            "y1": (y0 + this.props.savings[i] * (this.props.rates[i] + this.props.futureRates[i][q]))
           });
 
-        y0 += this.props.savings[i] * this.props.futureRates[i][q];
+        y0 += this.props.savings[i] * (this.props.rates[i] + this.props.futureRates[i][q]);
 
         if (this.props.interest.length) {
 
@@ -113,10 +118,10 @@ export default class Chart2 extends Component {
               "name": this.props.currencies[i],
               "projected": true,
               "y0": y0,
-              "y1": (y0 + this.props.savings[i] * this.props.futureRates[i][q] * this.props.interest[i] / 100)
+              "y1": (y0 + calculateInterest(q, this.props.savings[i], (this.props.rates[i] + this.props.futureRates[i][q]), this.props.interest[i]))
             });
 
-          y0 += this.props.savings[i] * this.props.futureRates[i][q] * this.props.interest[i] / 100;
+          y0 += calculateInterest(q, this.props.savings[i], (this.props.rates[i] + this.props.futureRates[i][q]), this.props.interest[i]);
         }
 
       }
