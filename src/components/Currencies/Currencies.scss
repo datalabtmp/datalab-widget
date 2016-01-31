@@ -27,7 +27,6 @@ $end-color: #0189ff;
       padding: 0;
     }
   }
-
 }
 
 
@@ -53,6 +52,20 @@ $end-color: #0189ff;
 }
 
 :global {
+
+  li {
+    a.remove {
+      display: none;
+      padding-left:1em;
+    }
+
+    &:hover {
+
+      a.remove {
+        display: inline-block;
+      }
+    }
+  }
 
 
 
@@ -99,6 +112,7 @@ $end-color: #0189ff;
 
   }
 
+
   .col {
     position: relative;
     #vis, #bar {
@@ -111,6 +125,7 @@ $end-color: #0189ff;
         cursor: ns-resize;
       }
     }
+
 
 
 

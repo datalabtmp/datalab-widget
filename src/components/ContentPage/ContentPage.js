@@ -29,8 +29,6 @@ class ContentPage extends Component {
     return (
       <div className={s.root}>
         <Currencies saveState={true} />
-        <hr/>
-        <button className="add" onClick={function(){localStorage.setItem('state', ''); window.location = '/';}}>Reset</button>
       </div>
     );
   }

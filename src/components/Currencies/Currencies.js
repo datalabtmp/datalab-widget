@@ -100,6 +100,17 @@ export default class Currencies extends Component {
     }.bind(this));
   }
 
+  _removeCurrency(index, event) {
+
+    this.setState({
+      currencies: ReactWithAddons.addons.update(this.state.currencies, {$splice: [[index, 1]]}),
+      savings: ReactWithAddons.addons.update(this.state.savings, {$splice: [[index, 1]]}),
+      interest: ReactWithAddons.addons.update(this.state.interest, {$splice: [[index, 1]]}),
+      rates: ReactWithAddons.addons.update(this.state.rates, {$splice: [[index, 1]]}),
+      futureRates: ReactWithAddons.addons.update(this.state.futureRates, {$splice: [[index, 1]]})
+    });
+  }
+
   /*
    * Save current state to url
    * */
@@ -242,7 +253,21 @@ export default class Currencies extends Component {
     var total = 0;
 
     for (var i = 0; i < this.state.currencies.length; i++) {
-      total +=  (1 * this.state.savings[i] + (this.state.withInterest ? this.state.savings[i] * (1 * this.state.interest[i] / 100) : '')) * (this.state.rates[i] + this.state.futureRates[i][3]);
+
+      if (this.state.withInterest) {
+
+        var quarterlyInterest = (1 * this.state.interest[i]) / 100 / 4;
+
+        var baseAmount = 1 * this.state.savings[i];
+
+        for (var q = 0; q < 4; q++) {
+          baseAmount += quarterlyInterest * baseAmount;
+        }
+
+        total += baseAmount * (1 * this.state.rates[i] + 1 * this.state.futureRates[i][3]);
+      }
+
+      else total += 1 * this.state.savings[i] * (this.state.rates[i] + this.state.futureRates[i][3]);
     }
 
     return total;
@@ -291,8 +316,13 @@ export default class Currencies extends Component {
                  data-currency={this.state.currencies[i]}
                  disabled={!this.state.withInterest}
                  defaultValue={this.state.interest[i]}
-                 onChange={this._onInterestChange.bind(this)}/>
+                 onChange={this._onInterestChange.bind(this)} />
         </div>
+        <a className="remove" href="#" data-currencyIndex={i} onClick={this._removeCurrency.bind(this, i)}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="8" viewBox="0 0 8 8">
+            <path d="M1.41 0l-1.41 1.41.72.72 1.78 1.81-1.78 1.78-.72.69 1.41 1.44.72-.72 1.81-1.81 1.78 1.81.69.72 1.44-1.44-.72-.69-1.81-1.78 1.81-1.81.72-.72-1.44-1.41-.69.72-1.78 1.78-1.81-1.78-.72-.72z" />
+          </svg>
+        </a>
       </li>);
     }
 

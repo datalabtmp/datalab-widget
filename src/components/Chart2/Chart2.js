@@ -85,10 +85,7 @@ export default class Chart2 extends Component {
   }
 
   _getData() {
-
-    function calculateInterest(quarter, savings, quarterRate, yearlyInterest) {
-      return savings * quarterRate * yearlyInterest / ((4 - quarter) * (100/4));
-    }
+    var baseAmounts = _.cloneDeep(this.props.savings);
 
     var data = [];
 
@@ -101,27 +98,35 @@ export default class Chart2 extends Component {
       var y0 = 0;
 
       for (var i = 0; i < this.props.currencies.length; i++) {
+
+        baseAmounts[i] = 1 * baseAmounts[i];
+
         quarter.quarter.push(
           {
             "name": this.props.currencies[i],
             "projected": false,
             "y0": y0,
-            "y1": (y0 + this.props.savings[i] * (this.props.rates[i] + this.props.futureRates[i][q]))
+            "y1": (y0 + baseAmounts[i] * (this.props.rates[i] + this.props.futureRates[i][q]))
           });
 
-        y0 += this.props.savings[i] * (this.props.rates[i] + this.props.futureRates[i][q]);
+        y0 += baseAmounts[i] * (this.props.rates[i] + this.props.futureRates[i][q]);
 
         if (this.props.interest.length) {
+
+          var quarterlyInterest = 1 * this.props.interest[i] / 100 / 4;
+          var quarterlyGain = baseAmounts[i] * quarterlyInterest;
 
           quarter.quarter.push(
             {
               "name": this.props.currencies[i],
               "projected": true,
               "y0": y0,
-              "y1": (y0 + calculateInterest(q, this.props.savings[i], (this.props.rates[i] + this.props.futureRates[i][q]), this.props.interest[i]))
+              "y1": (y0 + quarterlyGain * ( this.props.rates[i] +  this.props.futureRates[i][q]))
             });
 
-          y0 += calculateInterest(q, this.props.savings[i], (this.props.rates[i] + this.props.futureRates[i][q]), this.props.interest[i]);
+          y0 += quarterlyGain * ( this.props.rates[i] +  this.props.futureRates[i][q]);
+
+          baseAmounts[i] += quarterlyGain;
         }
 
       }
